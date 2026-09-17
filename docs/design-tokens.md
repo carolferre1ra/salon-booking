@@ -64,7 +64,7 @@ Família: **Poppins**.
 
 ## Protótipo
 
-**Link:** a definir — o link do Figma será adicionado aqui quando o protótipo estiver disponível.
+**Link:** [Protótipo SalonHub no Figma](https://www.figma.com/design/u5OT3oRC8pWXQsqK3N2eYL/SalonBookin?node-id=0-1&p=f&t=KjMmVrgZSGzQqjpo-0)
 
 **Telas (4):**
 
