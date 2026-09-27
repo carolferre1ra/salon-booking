@@ -52,7 +52,7 @@
 
 > Prioridade **MoSCoW** — o conjunto de `Must Have` é o escopo comprometido do projeto; `Should`/`Could` entram se sobrar tempo. Tamanho **S/M/L**. Toda story nasce `⚪ Draft` — só o aluno promove a `🟡 Ready`; `🟢 Live` é quando o PR da história mescla (o auditor final confere).
 
-### US01 — Cadastrar e editar cliente · `Must Have` · `S` · Status: `⚪ Draft`
+### US01 — Cadastrar e editar cliente · `Must Have` · `S` · Status: `🟡 Ready`
 
 <!-- Status: `⚪ Draft` (não codificar) · `🟡 Ready` (vira Issue) · `🟢 Live` (PR mesclado) -->
 
@@ -72,7 +72,7 @@
 
 ---
 
-### US02 — Cadastrar e editar procedimento · `Must Have` · `S` · Status: `⚪ Draft`
+### US02 — Cadastrar e editar procedimento · `Must Have` · `S` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** cadastrar e editar os procedimentos com nome, duração padrão e preço padrão, **para que** eu possa usá-los como referência na criação dos agendamentos.
 
@@ -90,7 +90,7 @@
 
 ---
 
-### US03 — Criar agendamento · `Must Have` · `M` · Status: `⚪ Draft`
+### US03 — Criar agendamento · `Must Have` · `M` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** criar um agendamento informando cliente, procedimento, profissional e os horários de início e término — com o valor do atendimento preenchido automaticamente e ajustável — **para que** o atendimento fique registrado na agenda, com conflitos de horário evitados.
 
@@ -112,7 +112,7 @@
 
 ---
 
-### US04 — Editar agendamento · `Must Have` · `M` · Status: `⚪ Draft`
+### US04 — Editar agendamento · `Must Have` · `M` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** editar um agendamento com status Agendado — cliente, procedimento, profissional, horários ou valor — **para que** eu possa corrigir ou remarcar mantendo a agenda sem conflitos.
 
@@ -133,7 +133,7 @@
 
 ---
 
-### US05 — Cancelar agendamento · `Must Have` · `S` · Status: `⚪ Draft`
+### US05 — Cancelar agendamento · `Must Have` · `S` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** cancelar um agendamento, **para que** o horário deixe de ocupar a agenda e fique registrado que aquele atendimento não vai acontecer.
 
@@ -151,7 +151,7 @@
 
 ---
 
-### US06 — Visualizar agenda · `Must Have` · `M` · Status: `⚪ Draft`
+### US06 — Visualizar agenda · `Must Have` · `M` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** visualizar a agenda de uma profissional em visão **diária ou semanal**, **para que** eu tenha uma visão organizada dos atendimentos e identifique rapidamente o próximo.
 
@@ -169,7 +169,7 @@
 
 ---
 
-### US07 — Assinatura e mensalidade · `Must Have` · `L` · Status: `⚪ Draft`
+### US07 — Assinatura e mensalidade · `Must Have` · `L` · Status: `🟡 Ready`
 
 **Como** administradora, que também é a assinante, **eu quero** contratar a assinatura do SalonHub e pagar a mensalidade mensal, **para que** o salão mantenha o acesso ao sistema.
 
@@ -189,7 +189,7 @@
 
 ---
 
-### US08 — Acessar o sistema · `Should Have` · `S` · Status: `⚪ Draft`
+### US08 — Acessar o sistema · `Should Have` · `S` · Status: `🟡 Ready`
 
 **Como** administradora ou profissional, **eu quero** entrar no SalonHub com e-mail e senha, **para que** eu acesse a agenda e as funcionalidades conforme o meu papel.
 
@@ -208,7 +208,7 @@
 
 ---
 
-### US09 — Recuperar senha · `Should Have` · `S` · Status: `⚪ Draft`
+### US09 — Recuperar senha · `Should Have` · `S` · Status: `🟡 Ready`
 
 **Como** usuária (administradora ou profissional), **eu quero** recuperar minha senha quando a esqueço, **para que** eu volte a acessar o sistema sem depender de terceiros.
 
