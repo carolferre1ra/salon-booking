@@ -114,3 +114,14 @@ flowchart TD
 | # | Dúvida | Onde ela precisa ser resolvida |
 | --- | --- | --- |
 | 1 | Forma de pagamento da mensalidade (Pix, boleto, cartão) e gateway — a jornada de pagamento da US07 será desenhada quando essa decisão existir | `docs/architecture.md` / planejamento da US07 |
+---
+
+## Cobertura de histórias (rastreabilidade)
+
+As histórias abaixo **não possuem jornada de tela própria** documentada nesta versão da Entrega 1. Elas aparecem apenas como apoio/uso indireto nos fluxos existentes. Essa ausência **não significa** que as histórias foram descartadas — trata-se apenas de uma lacuna de cobertura documental desta versão de planejamento.
+
+- **US01 — Cadastrar e editar cliente:** não possui fluxo próprio nesta versão; aparece como apoio/uso indireto no **Fluxo 2 — Criar um novo agendamento**, durante a etapa **"Escolhe a cliente"** (seleção). Não há jornada documentada para cadastrar/editar cliente nesta versão.
+- **US02 — Cadastrar e editar procedimento:** não possui fluxo próprio nesta versão; aparece como apoio/uso indireto no **Fluxo 2 — Criar um novo agendamento**, durante as etapas **"Escolhe o procedimento"** e no preenchimento automático de término/valor com a duração/preço padrão do procedimento. Não há jornada documentada para cadastrar/editar procedimento nesta versão.
+- **US07 — Gerenciar profissionais/usuários e assinatura/mensalidade:** não possui fluxo próprio nesta versão. Conforme registrado na seção **"Dúvidas em aberto"**, a jornada de pagamento/assinatura/mensalidade será desenhada quando houver a definição da forma de pagamento e do gateway (fora de escopo desta história). Essa lacuna permanece **documentada e em aberto**, sem invenção de fluxo ou gateway nesta versão da Entrega 1.
+
+A ausência de fluxo próprio não exclui essas histórias do escopo (todas são `Must Have` no PRD). Trata-se exclusivamente de cobertura documental para fins da Entrega 1.
