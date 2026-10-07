@@ -72,3 +72,12 @@ Família: **Poppins**.
 2. **Novo agendamento** — formulário (`painel`) com cliente, procedimento, profissional, horários e valor, e a mensagem de conflito (`perigo`).
 3. **Editar agendamento** — o mesmo formulário em modo de edição, com as validações de conflito reaplicadas.
 4. **Confirmação/cancelamento** — confirmação de ação com feedback de `sucesso` para confirmações e `perigo` para cancelamentos.
+---
+
+## Cobertura de telas
+
+As telas atualmente documentadas cobrem **US03** (Novo agendamento), **US04** (Editar agendamento), **US05** (Confirmação/cancelamento) e **US06** (Agenda semanal).
+
+As histórias **US01** (Cadastrar/editar cliente), **US02** (Cadastrar/editar procedimento) e **US07** (Assinatura e mensalidade) **não possuem tela própria listada** nesta versão do protótipo/documentação. 
+
+Essa é uma **lacuna de cobertura documental** desta versão da Entrega 1, não uma decisão de excluir essas histórias do produto. A ausência de tela própria nesta documentação não altera o escopo definido no PRD.
