@@ -141,7 +141,7 @@ erDiagram
     PROFESSIONAL {
         UUID id PK
         string name
-        UUID userId FK UK
+        UUID userId FK
     }
     SUBSCRIPTION {
         UUID id PK
