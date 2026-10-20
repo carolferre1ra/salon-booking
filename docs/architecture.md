@@ -37,11 +37,12 @@
 > O que a ficha da disciplina fixa entra como está; o que ela deixa livre é
 > decidido na entrevista.
 
-- **Backend:** NestJS (Node.js + TypeScript)
-- **Frontend:** React (TypeScript)
+- **Backend:** NestJS 12 (Node.js + TypeScript)
+- **Frontend:** React 19 + TypeScript, construído com Vite
 - **Padrões de código do frontend:** Componentes funcionais com hooks, organização por feature/domínio, camada de repositório/serviço para acesso à API
 - **Estilo:** CSS convencional (conforme tokens definidos em `docs/design-tokens.md`)
-- **Testes:** Ferramentas definidas no `package.json` de cada app (backend e frontend), com comandos de suíte e lint a configurar no setup
+- **Testes:** **Vitest** em ambos os apps (`apps/api` e `apps/web`); no frontend, complementado por **Testing Library** para testar renderização de componentes. Comandos de suíte e lint orquestrados pelo `package.json` da raiz.
+- **Lint:** **Oxlint** em ambos os apps.
 
 ### 🧱 2.1. Backend — regras estruturais
 
@@ -56,6 +57,21 @@
 ### 🌐 2.2. O contrato da API
 
 > Conforme **ID14** do checklist, a API **NestJS** deverá expor **documentação Swagger atualizada e interativa**. A documentação viva é gerada a partir do código (anotações/Decorators) e servida pela própria API (ex.: `/api/docs`). O arquivo gerado não será commitado. Nenhum endpoint específico é listado neste documento — contratos nascem nas specs de cada história.
+
+### 🧪 2.3. Ferramentas do scaffold (ratificadas no setup)
+
+> Estas decisões foram tomadas pelo `/utf-setup` a partir dos geradores oficiais e ratificadas neste documento. Não são detalhes de negócio — são a fundação técnica sobre a qual o ciclo SDD roda.
+
+| Camada | Ferramenta | Versão gerada | Origem |
+| :----- | :--------- | :------------ | :----- |
+| Backend | NestJS | 12 | `@nestjs/cli` |
+| Backend — testes | Vitest | 4.x | padrão do NestJS 12 |
+| Backend — lint | Oxlint | 1.x | padrão do NestJS 12 |
+| Frontend | React + TypeScript (Vite) | React 19 / Vite 8 | `create-vite` (`react-ts`) |
+| Frontend — testes | Vitest + Testing Library | 5.x | configuração do setup |
+| Frontend — lint | Oxlint | 1.x | padrão do template Vite |
+
+> 📌 **Nota de ambiente (backend):** no ambiente utilizado — **Node.js 22.20.0** e **npm 10.9.3** — o `npm install` convencional em `apps/api` falhou ao resolver o peer set das dependências opcionais do NestJS 12 (`Cannot read properties of null (reading 'edgesOut')`). A instalação com **`--legacy-peer-deps`** funcionou. Essa observação se refere ao ambiente testado e não implica que a mesma falha ocorrerá em outras versões do Node.js ou do npm.
 
 ---
 
@@ -75,8 +91,8 @@
 ├── docs/                  # prd.md, user-flows.md, design-tokens.md, este arquivo, checklist.md e guias
 ├── specs/                 # uma pasta por história
 └── apps/
-    ├── api/       # NestJS
-    └── web/       # React
+    ├── api/       # NestJS 12
+    └── web/       # React 19 + TypeScript (Vite)
 ```
 
 ---
@@ -209,6 +225,7 @@ erDiagram
 | :--- | :----- | :---------- |
 | 2026-09-13 | 1.0.0 | Versão inicial via `/utf-architecture` (esqueleto) |
 | 2026-10-06 | 1.0.0 | Revisão para Entrega 1: preenchimento com base em PRD, user-flows, design-tokens e checklist (NestJS + Prisma + PostgreSQL; React; regras estruturais IDs 6–10; Swagger ID14; ER derivado do PRD; glossário técnico; domínios; ambientes) |
+| 2026-10-19 | 1.1.0 | Ratificação do scaffold gerado no `/utf-setup` (§2 e §2.3): NestJS 12; Vitest + Oxlint no backend; React 19 + Vite; Vitest + Testing Library no frontend; nota de ambiente sobre `--legacy-peer-deps` no backend |
 
 ---
 
