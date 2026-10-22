@@ -1,8 +1,8 @@
 # 🛠️ Architecture / Software Design Document
 
 **Projeto:** SalonBooking
-**Versão:** 1.0.0 · revisão para Entrega 1
-**Última atualização:** 2026-10-06
+**Versão:** 1.2.0 · revisão para Entrega 1
+**Última atualização:** 2026-10-21
 
 > 🤖 **O `prd.md` responde _o quê_ o produto faz. Este responde _onde as coisas
 > moram e como se chamam_.** Detalhe de tela — rota, componente, contrato —
@@ -41,7 +41,7 @@
 - **Frontend:** React 19 + TypeScript, construído com Vite
 - **Padrões de código do frontend:** Componentes funcionais com hooks, organização por feature/domínio, camada de repositório/serviço para acesso à API
 - **Estilo:** CSS convencional (conforme tokens definidos em `docs/design-tokens.md`)
-- **Testes:** **Vitest** em ambos os apps (`apps/api` e `apps/web`); no frontend, complementado por **Testing Library** para testar renderização de componentes. Comandos de suíte e lint orquestrados pelo `package.json` da raiz.
+- **Testes:** **Vitest** em ambos os apps (`apps/api` e `apps/web`); no frontend, complementado por **Testing Library** para testar renderização de componentes. Comandos de suíte, lint e build orquestrados pelo `package.json` da raiz, que também é o **único ponto de instalação** (workspaces npm — ver §3).
 - **Lint:** **Oxlint** em ambos os apps.
 
 ### 🧱 2.1. Backend — regras estruturais
@@ -71,22 +71,30 @@
 | Frontend — testes | Vitest + Testing Library | 5.x | configuração do setup |
 | Frontend — lint | Oxlint | 1.x | padrão do template Vite |
 
-> 📌 **Nota de ambiente (backend):** no ambiente utilizado — **Node.js 22.20.0** e **npm 10.9.3** — o `npm install` convencional em `apps/api` falhou ao resolver o peer set das dependências opcionais do NestJS 12 (`Cannot read properties of null (reading 'edgesOut')`). A instalação com **`--legacy-peer-deps`** funcionou. Essa observação se refere ao ambiente testado e não implica que a mesma falha ocorrerá em outras versões do Node.js ou do npm.
+> 📌 **Nota de ambiente (npm 10.x):** no ambiente utilizado — **Node.js 22.20.0** e **npm 10.9.3** — o `npm install` falha com `Cannot read properties of null (reading 'edgesOut')`. A causa foi isolada experimentalmente: é um **bug do `@npmcli/arborist` no npm 10.x** (`#loadPeerSet`, em `lib/arborist/build-ideal-tree.js`), disparado ao resolver o conjunto de *peers* **opcionais** do **`vitest@4`** — dependência do backend. **Não é o NestJS** e não decorre das versões declaradas em `package.json`: `@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`, `@nestjs/cli` e `@nestjs/mau` instalam sem qualquer flag. O mesmo `vitest@4` instala normalmente no **npm ≥ 11**, onde o bug não se reproduz.
+>
+> **Mitigação adotada:** a raiz do monorepo tem um `.npmrc` com `legacy-peer-deps=true`, que faz `npm install` e `npm ci` funcionarem sem flags na linha de comando. Com npm ≥ 11 o arquivo pode ser removido sem efeito colateral. A alternativa — trocar as versões declaradas de `vitest` nas aplicações — foi **descartada**: alteraria a decisão de toolchain ratificada em §2.3.
 
 ---
 
 ## 🗂️ 3. Estrutura do Repositório (Monorepo)
 
-> Uma pasta por aplicação, cada uma com o seu `package.json`. Sem npm
-> workspaces, Nx ou Turborepo enquanto não houver código compartilhado de
-> verdade — ferramenta sem problema para resolver é só custo.
+> Uma pasta por aplicação, cada uma com o seu `package.json`, e as duas
+> declaradas como **workspaces npm** na raiz (`"workspaces": ["apps/*"]`).
+> Isso centraliza a instalação em um único `npm install` e mantém **um só
+> `package-lock.json`** versionado na raiz. Nx e Turborepo continuam fora:
+> ferramenta sem problema para resolver é só custo — e hoje o problema a
+> resolver é a instalação, não a orquestração de builds.
 
 ```text
 .
 ├── .agents/               # constituição, workflows e prompts dos agentes (§1)
 ├── .claude/ .cursor/ .opencode/   # cascas de cada ferramenta — só apontam para .agents/
 ├── .github/               # template de PR e o Portão de Entendimento
+├── .npmrc                 # workaround para o bug do npm 10.x (ver nota em §2.3)
 ├── CLAUDE.md  AGENTS.md   # carregam a constituição em toda sessão
+├── package.json           # raiz do workspace: scripts e dependências ancoradas
+├── package-lock.json      # lockfile único do monorepo
 ├── README.md              # a vitrine: o que é e como rodar
 ├── docs/                  # prd.md, user-flows.md, design-tokens.md, este arquivo, checklist.md e guias
 ├── specs/                 # uma pasta por história
@@ -94,6 +102,25 @@
     ├── api/       # NestJS 12
     └── web/       # React 19 + TypeScript (Vite)
 ```
+
+### 📦 3.1. Instalação centralizada e versões ancoradas
+
+A instalação é feita **uma única vez, na raiz**. O npm resolve a árvore com
+*hoisting*: o que é comum às duas aplicações sobe para `node_modules/` da raiz;
+o que diverge fica aninhado em `apps/<app>/node_modules/`.
+
+As duas aplicações **não compartilham a mesma versão** de algumas
+ferramentas — o backend usa Vitest 4 e TypeScript 6, o frontend usa Vitest 5 e
+TypeScript 7. Para que o *hoisting* resolva isso de forma previsível, a raiz
+declara em `devDependencies` o **conjunto âncora** (`vitest@^5.0.5` e
+`@vitest/coverage-v8@^5.0.5`), que fixa na raiz a versão mais nova de cada
+par. O par é declarado **inteiro e coerente** de propósito: `@vitest/coverage-v8`
+exige como *peer* exatamente a mesma versão de `vitest` que ele acompanha, e
+uma âncora pela metade produziria uma árvore com peers inválidos.
+
+Com esse arranjo, cada aplicação continua usando **exatamente** as versões
+declaradas no seu próprio `package.json`, e o `package-lock.json` da raiz é a
+única fonte de verdade da resolução.
 
 ---
 
@@ -226,6 +253,7 @@ erDiagram
 | 2026-09-13 | 1.0.0 | Versão inicial via `/utf-architecture` (esqueleto) |
 | 2026-10-06 | 1.0.0 | Revisão para Entrega 1: preenchimento com base em PRD, user-flows, design-tokens e checklist (NestJS + Prisma + PostgreSQL; React; regras estruturais IDs 6–10; Swagger ID14; ER derivado do PRD; glossário técnico; domínios; ambientes) |
 | 2026-10-19 | 1.1.0 | Ratificação do scaffold gerado no `/utf-setup` (§2 e §2.3): NestJS 12; Vitest + Oxlint no backend; React 19 + Vite; Vitest + Testing Library no frontend; nota de ambiente sobre `--legacy-peer-deps` no backend |
+| 2026-10-21 | 1.2.0 | Migração da instalação para **npm workspaces** (§3): `apps/api` e `apps/web` declarados na raiz, `package-lock.json` único, remoção dos lockfiles por app, conjunto âncora `vitest`/`@vitest/coverage-v8` v5 na raiz, `.npmrc` com `legacy-peer-deps=true` e correção da atribuição do erro `edgesOut` na nota de ambiente (§2.3) |
 
 ---
 
