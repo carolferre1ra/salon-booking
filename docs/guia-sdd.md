@@ -1416,10 +1416,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: apps/api/package-lock.json
+          # o lockfile é único e vive na raiz: as apps são workspaces npm
+          cache-dependency-path: package-lock.json
 
-      - run: npm ci
-        working-directory: apps/api
+      - run: npm ci                      # instala as duas apps de uma vez
       - run: npx prisma migrate deploy   # cria o schema no banco descartável
         working-directory: apps/api
       - run: npm run lint
