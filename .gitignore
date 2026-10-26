@@ -36,3 +36,6 @@ lerna-debug.log*
 # Vite
 *.local
 dist-ssr/
+
+# Prisma generated
+apps/api/generated/
